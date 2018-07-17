@@ -1,8 +1,11 @@
 package com.abby.ankoxml.ui
 
+import android.R
 import android.view.Gravity
 import android.view.View
 import android.view.ViewManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import org.jetbrains.anko.*
 
 /**
@@ -23,8 +26,8 @@ fun ViewManager.binarySwitch(leftText: String, rightText: String) {
             gravity = Gravity.CENTER
             switch {
                 setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked) buttonView.context.toast("Selected ${rightText}.")
-                    else buttonView.context.toast("Selected ${leftText}.")
+                    if (isChecked) buttonView.context.toast("Selected $rightText.")
+                    else buttonView.context.toast("Selected $leftText.")
                 }
             }
         }.lparams(height = wrapContent, width = 0, initWeight = 1f)
@@ -49,6 +52,29 @@ fun ViewManager.textRow(vararg texts: String, alignment: Int = View.TEXT_ALIGNME
                 hint = it
                 textAlignment = alignment
             }.lparams(height = wrapContent, width = 0, initWeight = 1f)
+        }
+    }
+}
+
+/**
+ * Spinner with listener for selected item.
+ *
+ * @param items The items to display in the spinner.
+ * @param onItemSelected The function to evaluate when an item is being selected.
+ *        Takes the position of the item in [items] as an argument.
+ */
+fun ViewManager.spinnerWithListener(items: Array<String>, onItemSelected: (position: Int) -> Unit) {
+    spinner {
+        adapter = ArrayAdapter(this.context, R.layout.simple_spinner_dropdown_item, items)
+        onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                onItemSelected(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                context.toast("Please select an item.")
+            }
+
         }
     }
 }

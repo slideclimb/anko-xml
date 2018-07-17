@@ -7,12 +7,15 @@ import android.view.MenuItem
 import com.abby.ankoxml.ui.TableAnkoUI
 import org.jetbrains.anko.setContentView
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class TableAnkoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TableAnkoUI().setContentView(this)
     }
+
+    fun hello() = toast("hello!")
 
     /**
      * Create the menu from xml (does not exist an Anko DSL for this yet :/)
